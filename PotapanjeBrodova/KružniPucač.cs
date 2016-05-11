@@ -25,7 +25,11 @@ namespace PotapanjeBrodova
             }
             kandidati.Sort((lista1, lista2) => lista2.Count() - lista1.Count());
             var grupe = kandidati.GroupBy(lista => lista.Count());
+<<<<<<< HEAD
             //između najduljih biram jednu slučajnim odabirom
+=======
+
+>>>>>>> origin/master
             var najdulji = grupe.First();
             if (najdulji.Count() == 1)
                 return najdulji.First().First();
