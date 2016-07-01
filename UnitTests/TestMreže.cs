@@ -17,38 +17,59 @@ namespace UnitTests
         public void Mreža_DajSlobodnaPoljaInicijalnoDajeSvaPoljaUMreži()
         {
             Mreža m = new Mreža(10, 10);
-            Assert.AreEqual(100, m.DajSlobodnaPolja().Count);
-            Assert.IsTrue(m.DajSlobodnaPolja().Exists(polje => polje.Redak == 1 && polje.Stupac == 1));
+            Assert.AreEqual(100, m.DajSlobodnaPolja().Count());
+            Assert.IsTrue(m.DajSlobodnaPolja().Contains(new Polje(1, 1)));
         }
 
         [TestMethod]
         public void Mreža_DajSlobodnaPoljaNakonEliminiranjaJednogPoljaVraćaOstatak()
         {
             Mreža m = new Mreža(10, 10);
-            m.EliminirajPolje(1, 1);
-            Assert.AreEqual(99, m.DajSlobodnaPolja().Count);
-            Assert.IsFalse(m.DajSlobodnaPolja().Exists(polje => polje.Redak == 1 && polje.Stupac == 1));
+            m.EliminirajPolje(new Polje(1, 1));
+            Assert.AreEqual(99, m.DajSlobodnaPolja().Count());
+            Assert.IsFalse(m.DajSlobodnaPolja().Contains(new Polje(1, 1)));
         }
 
         [TestMethod]
         public void Mreža_DajSlobodnaPoljaNakonEliminiranjaDvaPoljaVraćaOstatak()
         {
             Mreža m = new Mreža(10, 10);
-            m.EliminirajPolje(1, 1);
-            m.EliminirajPolje(2, 2);
-            Assert.AreEqual(98, m.DajSlobodnaPolja().Count);
-            Assert.IsFalse(m.DajSlobodnaPolja().Exists(polje => polje.Redak == 1 && polje.Stupac == 1));
-            Assert.IsFalse(m.DajSlobodnaPolja().Exists(polje => polje.Redak == 2 && polje.Stupac == 2));
+            m.EliminirajPolje(new Polje(1, 1));
+            m.EliminirajPolje(new Polje(2, 2));
+            Assert.AreEqual(98, m.DajSlobodnaPolja().Count());
+            Assert.IsFalse(m.DajSlobodnaPolja().Contains(new Polje(1, 1)));
+            Assert.IsFalse(m.DajSlobodnaPolja().Contains(new Polje(2, 2)));
         }
 
         [TestMethod]
         public void Mreža_DajSlobodnaPoljaNakonEliminiranjaDvaIstaPoljaVraćaOstatak()
         {
             Mreža m = new Mreža(10, 10);
-            m.EliminirajPolje(1, 1);
-            m.EliminirajPolje(1, 1);
-            Assert.AreEqual(99, m.DajSlobodnaPolja().Count);
+            m.EliminirajPolje(new Polje(1, 1));
+            m.EliminirajPolje(new Polje(1, 1));
+            Assert.AreEqual(99, m.DajSlobodnaPolja().Count());
+            Assert.IsFalse(m.DajSlobodnaPolja().Contains(new Polje(1, 1)));
         }
 
+        [TestMethod]
+        public void Mreža_DajPoljaZaBrodVraćaListuOd3HorizontalnaPolja()
+        {
+            Mreža m = new Mreža(10, 10);
+            var polja = m.DajPoljaZaBrod(Smjer.Horizontalno, new Polje(3, 6), 3);
+            Assert.AreEqual(3, polja.Count());
+            Assert.IsTrue(polja.Contains(new Polje(3, 6)));
+            Assert.IsTrue(polja.Contains(new Polje(3, 7)));
+            Assert.IsTrue(polja.Contains(new Polje(3, 8)));
+        }
+
+        [TestMethod]
+        public void Mreža_DajPoljaZaBrodVraćaListuOd2VertikalnaPolja()
+        {
+            Mreža m = new Mreža(10, 10);
+            var polja = m.DajPoljaZaBrod(Smjer.Vertikalno, new Polje(3, 6), 2);
+            Assert.AreEqual(2, polja.Count());
+            Assert.IsTrue(polja.Contains(new Polje(3, 6)));
+            Assert.IsTrue(polja.Contains(new Polje(4, 6)));
+        }
     }
 }
